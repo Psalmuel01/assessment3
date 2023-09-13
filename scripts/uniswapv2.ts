@@ -10,8 +10,6 @@ async function main() {
     uniswapv2Factory
   );
 
-//   125,516.3579
-//   7647.9
   const DAI = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
   const UNI = "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984";
 
@@ -21,14 +19,14 @@ async function main() {
   const DAIContract = await ethers.getContractAt("IERC20", DAI);
   const UNIContract = await ethers.getContractAt("IERC20", UNI);
 
-    await DAIContract.connect(signer).approve(
-      uniswapv2,
-      ethers.parseEther("1000000")
-    );
-    await UNIContract.connect(signer).approve(
-      uniswapv2,
-      ethers.parseEther("1000000")
-    );
+  await DAIContract.connect(signer).approve(
+    uniswapv2,
+    ethers.parseEther("1000000")
+  );
+  await UNIContract.connect(signer).approve(
+    uniswapv2,
+    ethers.parseEther("1000000")
+  );
 
   //   balance before
   console.log({
@@ -36,8 +34,8 @@ async function main() {
     UNIBal: ethers.formatEther(await UNIContract.balanceOf(holder)),
   });
 
-  const aDes = ethers.parseEther("10");
-  const bDes = ethers.parseEther("20");
+  const aDes = ethers.parseEther("1.83");
+  const bDes = ethers.parseEther("1.83");
   const aMin = ethers.parseEther("0");
   const bMin = ethers.parseEther("0");
   const currentTimestampInSeconds = Math.round(Date.now() / 1000);
@@ -47,19 +45,19 @@ async function main() {
   const pairContract = await ethers.getContractAt("IERC20", pair);
   const liquidity = await pairContract.balanceOf(holder);
 
-//   await pairContract
-//     .connect(signer)
-//     .approve(uniswapv2, ethers.parseEther("1000000"));
+  //   await pairContract
+  //     .connect(signer)
+  //     .approve(uniswapv2, ethers.parseEther("1000000"));
 
-    const addLiq = await uniswapv2Contract
-      .connect(signer)
-      .addLiquidity(DAI, UNI, aDes, bDes, aMin, bMin, signer, deadline);
-    addLiq.wait();
+  const addLiq = await uniswapv2Contract
+    .connect(signer)
+    .addLiquidity(DAI, UNI, aDes, bDes, aMin, bMin, signer, deadline);
+  addLiq.wait();
 
-//   const remLiq = await uniswapv2Contract
-//     .connect(signer)
-//     .removeLiquidity(DAI, UNI, liquidity, aMin, bMin, signer, deadline);
-//   remLiq.wait();
+    // const remLiq = await uniswapv2Contract
+    //   .connect(signer)
+    //   .removeLiquidity(DAI, UNI, liquidity, aMin, bMin, signer, deadline);
+    // remLiq.wait();
 
   //   balance after
   console.log({
